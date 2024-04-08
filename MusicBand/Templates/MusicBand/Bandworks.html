@@ -1,0 +1,64 @@
+{% extends 'MusicBand/Header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bandworks</title>
+</head>
+<body>
+    {% block content %}
+    <table border="1" align="center" >
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <tr>
+            <td>Type</td>
+            <td>
+                <select name="typedrp" id="typedrp">
+                    <option value="">Select</option>     
+                    {% for i in data %} 
+                    <option value="{{i.id}}">{{i.Musical_type}}</option>
+                    {% endfor %}
+                    </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Details</td>
+            <td><textarea name="txt_type"  ></textarea></td>
+        </tr>
+        <tr>
+            <td>Files</td>
+            <td><input type="file" id="files" name="files"></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+            <input type="submit" name="btn_save" id="btn_save" value="Save">
+            <input type="submit" name="btn_cancel" id="btn_cancel" value="Cancel"></td>
+        </tr>
+</table>
+
+        <table width="200" border="1">
+        <tr>
+            <td>Sl.no</td>
+            <td>Type</td>
+            <td>Details</td>
+            <td>Files</td>
+            <td>Action</td>
+        </tr>
+        {% for i in work %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.musicaltype.Musical_type}}</td>
+            <td>{{i.Bandworks_details}}</td>
+            <td><img src="{{i.Bandworks_files.url}}" width="150" height="150"></td>
+            <td><a href="{%  url 'musicband:delBandworks' i.id  %}">Delete</a>|
+                <a href="{%  url 'musicband:BandGallery' i.id  %}">Add Gallery</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+{% endblock content %}
+</body>
+</html>

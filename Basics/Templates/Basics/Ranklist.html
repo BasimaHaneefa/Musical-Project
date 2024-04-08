@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranklist</title>
+</head>
+<body>
+    <form method="POST">
+        {% csrf_token %}
+    <table>
+    <tr>
+        <td>name</td>
+        <td><input type="text" name="txtname" placeholder="Enter your name"></td>
+    </tr>
+    <tr>
+        <td>Gender</td>
+        <td><input type="radio" name="Gender" value="male">Male</td>
+        <td><input type="radio" name="Gender" value="female">Female</td>
+    </tr>
+    <tr>
+        <td>Department</td>
+        <td>
+            <select>
+                <option value="BCA">BCA</option>
+                <option value="BBA">BBA</option>
+                <option value="B.com">B.com</option>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td>m1</td>
+        <td><input type="text" name="txtm1" placeholder="Enter your m1"></td>
+    </tr>
+    <tr>
+        <td>m2</td>
+        <td><input type="text" name="txtm2" placeholder="Enter your m2"></td>
+    </tr>
+    <tr>
+        <td>m3</td>
+        <td><input type="text" name="txtm3" placeholder="Enter your m3"></td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">
+            <input type="submit" name="btnsubmit" value="Submit">
+        </td>
+    </tr>
+    <tr>
+        <td>Total</td>
+        <td>{{Total}}</td>
+    </tr>
+    <tr>
+        <td>%</td>
+        <td>{{percentage}}</td>
+    </tr>
+    <tr>
+        <td>Grade</td>
+        <td>{{Grade}}</td>
+    </tr>
+
+</table>
+ </form>   
+</body>
+</html>

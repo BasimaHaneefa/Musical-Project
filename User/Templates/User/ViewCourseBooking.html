@@ -1,0 +1,52 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewCoursebooking</title>
+</head>
+<body>
+    {% block content %}
+    <table width="200" border="1">
+        <tr>
+            <td>Sl.no</td>
+            <td>Course Details</td>
+            <td>Photo</td>
+            <td>Amount</td>
+            <td>Duration</td>
+            <td>Musical Type</td>
+            <td>Freelancer Name</td>
+            <td>Freelancer Contact</td>
+            <td>Status</td>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.course.Course_details}}</td>
+            <td><img src="{{i.course.Course_files.url}}" width="150" height="150"></td>
+            <td>{{i.course.Course_amount}}</td>
+            <td>{{i.course.Course_duration}}</td>
+            <td>{{i.course.musicaltype.Musical_type}}</td>
+            <td>{{i.course.freelancer.FreelancerRegistration_name}}</td>
+            <td>{{i.course.freelancer.FreelancerRegistration_contact}}</td>
+            <td>{% if i.cbooking_status == '0' %}
+                Not Confirmed
+                {% elif i.cbooking_status == '1' %}
+                Confirmed | {% if i.payment_status == '0' %}
+                <a href="{% url 'User:CPay' i.id %}">Pay</a>
+                {% else  %}
+                Paid
+                {% endif %}
+                {% else %}
+                Rejected
+                {% endif %}
+            </td>
+
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+{% endblock content %}
+</html>

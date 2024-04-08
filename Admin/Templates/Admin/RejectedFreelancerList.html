@@ -1,0 +1,44 @@
+{% extends 'Admin/Header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreelancerVerification</title>
+</head>
+<body>
+  {% block content %}
+  <a href="{%  url 'webadmin:AdminHome'  %}">Home</a>
+    <table width="200" border="1">
+        <tr>
+            <td>Sl.no</td>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Contact</td>
+            <td>Address</td>
+            <td>Photo</td>
+            <td>Proof</td>
+            <td>District</td>
+            <td>Place</td>
+            <td>Action</td>
+          </tr>
+        </tr>
+        {%  for i in FreelancerVerification %}
+      <tr>
+          <td>{{forloop.counter}}</td> 
+          <td>{{i.FreelancerRegistration_name}}</td>
+          <td>{{i.FreelancerRegistration_email}}</td>
+          <td>{{i.FreelancerRegistration_contact}}</td>
+          <td>{{i.FreelancerRegistration_address}}</td>
+          <td>{{i.FreelancerRegistration_photo}}</td>
+          <td>{{i.FreelancerRegistration_proof}}</td>
+          <td>{{i.place.district.district_name}}</td>
+          <td>{{i.place.place_name}}</td>
+          <td><a href="{%  url 'webadmin:AcceptedFreelancer' i.id %}">Accept</a>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endblock content %}
+</body>
+</html>

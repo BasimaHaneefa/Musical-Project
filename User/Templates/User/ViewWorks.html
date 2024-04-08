@@ -1,0 +1,109 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Works</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        table {
+            margin: 20px auto;
+        }
+
+        table td {
+            padding: 10px;
+        }
+
+        select {
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        #resultdata {
+            margin-top: 20px;
+        }
+
+        #resultdata table {
+            width: 200px;
+            border: 1px solid #ccc;
+            margin-right: 20px;
+            float: left;
+        }
+
+        #resultdata table img {
+            width: 150px;
+            height: 150px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        #resultdata table td {
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+    <table border="1" align="center">
+        <form method="post">
+            {% csrf_token %}
+            <tr>
+                <td>Musical Type</td>
+                <td>
+                    <select name="typdrp" id="typtdrp">
+                        <option value="">Select</option>
+                        {% for i in data %}
+                        <option value="{{i.id}}">{{i.Musical_type}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+        </form>
+    </table>
+
+    <div id="resultdata">
+        {% for i in wdata %}
+        <table border="1">
+            <tr>
+                <td colspan="2" align="center"><img src="{{i.Bandworks_files.url}}" width="150" height="150"></td>
+            </tr>
+            <tr>
+                <td>Details:{{i.Bandworks_details}}</td>
+            </tr>
+            <tr>
+                <td>Type: {{i.musicaltype.Musical_type}}</td>
+            </tr>
+            <tr>
+                <td><a href="{% url 'User:Bandbooking' i.id %}">Book now</a></td>
+            </tr>
+        </table>
+        {% endfor %}
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $("#typtdrp").change(function () {
+            var dis= $(this).val();
+            var ur = "{% url 'User:Ajaxwork' %}";
+            $.ajax({
+                url: ur,
+                data: { disd: dis, },
+                success: function (data) {
+                    $("#resultdata").html(data);
+                },
+            });
+        });
+    </script>
+</body>
+{% endblock content %}
+</html>

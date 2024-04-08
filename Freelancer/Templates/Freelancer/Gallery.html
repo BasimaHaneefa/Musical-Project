@@ -1,0 +1,49 @@
+{% extends 'Freelancer/Header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery</title>
+</head>
+<body>
+    {% block content %}
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+    <table border="1" align="center">
+    <tr>
+        <td>Files</td>
+        <td><input type="file" id="files" name="files"></td>
+    </tr>
+    <tr>
+        <td>Caption</td>
+        <td><input type="text" name="txt_gallerycaption" id="txt_gallerycaption"></td>
+    </tr>
+    <tr>
+        <td colspan="2" align="center">
+        <input type="submit" name="btn_save" id="btn_save" value="Save">
+        <input type="submit" name="btn_cancel" id="btn_cancel" value="Cancel"></td>
+    </tr>
+</table>
+</form>
+    
+    <table width="200" border="1">
+        <tr>
+            <td>Sl.no</td>
+            <td>Files</td>
+            <td>Caption</td>
+            <td>Action</td>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td><img src="{{i.Gallery_files.url}}" width="150" height="150"></td>
+            <td>{{i.Gallery_caption}}</td>
+            <td><a href="{% url 'Freelancer:delgallery' i.id %}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endblock content %}
+</body>
+</html>

@@ -1,0 +1,59 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewMyBandbooking</title>
+</head>
+<body>
+    {% block content %}
+    <table width="400" border="1">
+        <tr>
+            <td>Sl.no</td>
+            <td>Fordate</td>
+            <td>Fortime</td>
+            <td>Band name</td>
+            <td>Photo</td>
+            <td>Musical Type</td>
+            <td>District</td>
+            <td>Place</td>
+            <td>Venue</td>
+            <td>Booked Date</td>
+            <td>Status</td>
+        </tr>
+        {% for i in data %}
+        <tr>
+        <td>{{forloop.counter}}</td>
+        <td>{{i.booking_fordate}}</td>
+        <td>{{i.booking_fortime}}</td>
+        <td>{{i.bandwork.musicband.MusicalBandRegistration_name}}</td>
+        <td><img src="{{i.bandwork.musicband.MusicalBandRegistration_logo.url}}" width="150" height="150"></td>
+        <td>{{i.bandwork.musicaltype.Musical_type}}</td>
+        <td>{{i.place.district.district_name}}</td>
+        <td>{{i.place.place_name}}</td>
+        <td>{{i.booking_venue}}</td>
+        <td>{{i.booked_date}}</td>
+        <td>{% if i.booking_status == '0' %}
+            Not Confirmed
+            {% elif i.booking_status == '1' %}
+            Accepted |{% if i.booking_amount == '0' %}
+            Amount not decide
+            {% else %}
+            Rs.{{i.booking_amount}} {% if i.payment_status == '0' %}
+            <a href="{% url 'User:BandPay' i.id %}">Pay</a>
+            {% else  %}
+            Paid
+            {% endif %}
+            {% endif %}
+            {% else %}
+            Rejected
+            {% endif %}
+        </td>
+    </tr>
+        {% endfor %}
+    </table>
+</body>
+{% endblock content %}
+</html>

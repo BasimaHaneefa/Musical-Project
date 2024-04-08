@@ -1,0 +1,14 @@
+{% for i in data %}
+<div class="card">
+    <img src="{{i.MusicalBandRegistration_logo.url}}" alt="Band Logo">
+    <div class="card-content">
+        <h3>{{i.MusicalBandRegistration_name}}</h3>
+        <p>Email: {{i.MusicalBandRegistration_email}}</p>
+        <p>Contact: {{i.MusicalBandRegistration_contact}}</p>
+        <p>Address: {{i.MusicalBandRegistration_address}}</p>
+        <p>District: {{i.place.district.district_name}}</p>
+        <p>Place: {{i.place.place_name}}</p>
+        <a href="{% url 'User:ViewWorks' i.id %}">View Works</a>
+    </div>
+</div>
+{% endfor %}

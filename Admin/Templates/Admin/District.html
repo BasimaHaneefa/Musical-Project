@@ -1,0 +1,46 @@
+{% extends 'Admin/Header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>District</title>
+<body>
+    {% block content %}
+    <a href="{%  url 'webadmin:AdminHome'  %}">Home</a>
+    <form method="post">
+        {% csrf_token %}
+    </head>
+    <table border="1" align="center">
+        <tr>
+            <td>District</td>
+            <td><input type="text" name="txt_district" placeholder="Enter District" value="{{disdata.district_name}}" ></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" name="btn_save" id="btn_save" value="Save">
+            <input type="submit" name="btn_cancel" id="btn_cancel" value="Cancel"></td>
+            </tr>
+    </table>
+    <table width="500" border="1" align="center">
+        <tr>
+            <td>Sl.no</td>
+            <td>District</td>
+            <td>Action</td>
+        </tr>
+        {%  for i in District %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.district_name}}</td>
+            <td><a href="{%  url 'webadmin:DeleteDistrict' i.id %}">Delete</a></td>
+            <td><a href="{%  url 'webadmin:Updatedis' i.id %}">Edit</a></td>
+        
+        </tr>
+        {% endfor %}
+        </table>
+    </form>
+    <br><br>
+    {% endblock content %}
+</body>
+</html>

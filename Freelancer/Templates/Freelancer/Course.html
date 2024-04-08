@@ -1,0 +1,74 @@
+{% extends 'Freelancer/Header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Course</title>
+</head>
+<body>
+    {% block content %}
+    <table border="1" align="center">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <tr>
+            <td>Musical Type</td>
+            <td>
+                <select name="typedrp" id="typedrp">
+                    <option value="">Select  </option>   
+                    {% for i in data %} 
+                    <option value="{{i.id}}">{{i.Musical_type}}</option>
+                    {% endfor %}   
+                    </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Details</td>
+            <td><textarea name="txt_details"  ></textarea></td>
+        </tr>
+        <tr>
+            <td>Duration</td>
+            <td><input type="text" name="txt_duration" placeholder="Enter Duration" value="" ></td>
+        </tr>
+        <tr>
+            <td>Amount</td>
+            <td><input type="text" name="txt_amount" placeholder="Enter Amount" value="" ></td>
+        </tr>
+        <tr>
+            <td>Files</td>
+            <td><input type="file" id="files" name="files"></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+            <input type="submit" name="btn_save" id="btn_save" value="Save">
+            <input type="submit" name="btn_cancel" id="btn_cancel" value="Cancel"></td>
+        </tr>
+</table>
+
+        <table width="200" border="1">
+        <tr>
+            <td>Sl.no</td>
+            <td>Musical Type</td>
+            <td>Details</td>
+            <td>Duration</td>
+            <td>Amount</td>
+            <td>Files</td>
+            <td>Action</td>
+        </tr>
+        {% for i in cdata %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.musicaltype.Musical_type}}</td>
+            <td>{{i.Course_details}}</td>
+            <td>{{i.Course_duration}}</td>
+            <td>{{i.Course_amount}}</td>
+            <td><img src="{{i.Course_files.url}}" width="150" height="150"></td>
+            <td><a href="{% url 'Freelancer:delcourse' i.id %}">Delete</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</form>
+{% endblock content %}
+</body>
+</html>

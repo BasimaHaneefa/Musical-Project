@@ -1,0 +1,37 @@
+{% for i in data %}
+    <table width="200" table border="1" align="left">
+   
+        <tr>
+            
+            <td colspan="2" align="center"><img src="{{i.Course_files.url}}" width="150" height="150"></td>
+        </tr>
+        <tr>
+            <td>Details</td>
+            <td>{{i.Course_details}}</td>
+        </tr>
+        <tr>
+            <td>Duration</td>
+            <td>{{i.Course_duration}}</td>
+        </tr>
+        <tr>
+            <td>Amount</td>
+            <td>Rs.{{i.Course_amount}}</td>
+
+        </tr>
+        <tr>
+            <td>Musicaltype</td>
+            <td>{{i.musicaltype.Musical_type}}</td>
+        </tr>
+        <tr>
+            <td>Freelancer Name</td>
+            <td>{{i.freelancer.FreelancerRegistration_name}}</td>
+        </tr>
+        <tr>
+            <td>Freelancer Contact</td>
+            <td>{{i.freelancer.FreelancerRegistration_contact}}</td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center"><a href="{% url 'User:Bookcourse' i.id %}">Book course</a></td>
+        </tr>
+    </table>
+    {% endfor %}

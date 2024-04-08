@@ -1,0 +1,19 @@
+{% for i in wdata %}
+    <table width="200" table border="1" align="left">
+    <form method="post">
+        <tr>
+          
+            <td colspan="2" align="center"><img src="{{i.Bandworks_files.url}}" width="150" height="150"></td>
+        </tr>
+        <tr>
+            <td>Details:{{i.Bandworks_details}}</td>
+        </tr>
+        <tr>
+            <td>Type: {{i.musicaltype.Musical_type}}</td>
+        </tr>
+        <tr>
+            <td><a href="{% url 'User:Bandbooking' i.id %}">Book now</a></td>
+        </tr>
+    </table>
+</form>
+{% endfor %}

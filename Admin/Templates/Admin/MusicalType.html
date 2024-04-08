@@ -1,0 +1,46 @@
+{% extends 'Admin/Header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicalType</title>
+</head>
+<body>
+    {% block content %}
+    <a href="{%  url 'webadmin:AdminHome'  %}">Home</a>
+    <form method="post">
+        {% csrf_token %}
+    </head>
+    <table>
+        <tr>
+            <td>MusicalType</td>
+            <td><input type="text" name="txt_MusicalType" placeholder="Enter Music Type" value="{{mltdata.Musical_type}}" ></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+                <input type="submit" name="btn_save" id="btn_save" value="Save">
+            <input type="submit" name="btn_cancel" id="btn_cancel" value="Cancel"></td>
+            </tr>
+    </table>
+    <table width="200" border="1">
+        <tr>
+            <td>Sl.no</td>
+            <td>MusicalType</td>
+            <td>Action</td>
+        </tr>
+        {%  for i in MusicalType %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.Musical_type}}</td>
+            <td><a href="{%  url 'webadmin:DeleteMusicalType' i.id %}">Delete</a></td>
+            <td><a href="{%  url 'webadmin:Updatemusicaltype' i.id %}">Edit</a></td>
+        
+        </tr>
+        {% endfor %}
+    </table>
+    </form>
+    {% endblock content %}
+</body>
+</html>

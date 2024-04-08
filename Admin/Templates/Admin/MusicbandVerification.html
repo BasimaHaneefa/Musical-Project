@@ -1,0 +1,43 @@
+{% extends 'Admin/Header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MusicbandVerification</title>
+</head>
+<body>
+    {% block content %}
+    <a href="{%  url 'webadmin:AdminHome'  %}">Home</a>
+    <table width="200" border="1">
+        <tr>
+            <td>Sl.no</td>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Contact</td>
+            <td>Address</td>
+            <td>Logo</td>
+            <td>Proof</td>
+            <td>District</td>
+            <td>Place</td>
+            <td>Action</td>
+          </tr>
+          {%  for i in MusicbandVerification %}
+        <tr>
+            <td>{{forloop.counter}}</td> 
+            <td>{{i.MusicalBandRegistration_name}}</td>
+            <td>{{i.MusicalBandRegistration_email}}</td>
+            <td>{{i.MusicalBandRegistration_contact}}</td>
+            <td>{{i.MusicalBandRegistration_address}}</td>
+            <td>{{i.MusicalBandRegistration_logo}}</td>
+            <td>{{i.MusicalBandRegistration_proof}}</td>
+            <td>{{i.place.district.district_name}}</td>
+            <td>{{i.place.place_name}}</td>
+            <td><a href="{%  url 'webadmin:AcceptedMusicband' i.id %}">Accept</a><a href="{%  url 'webadmin:RejectedMusicband' i.id %}">Reject</a></td>
+          </tr>
+          {% endfor %}
+    </table>
+    {% endblock content %}
+</body>
+</html>

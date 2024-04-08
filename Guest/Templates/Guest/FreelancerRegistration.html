@@ -1,0 +1,97 @@
+{% extends 'Guest/Header.html' %}
+{% load static %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>FreelancerRegistration</title>
+</head>
+
+<body>
+  {% block content %}
+  <br><br><br><br><br><br><br>
+  <div id="tab" align="center">
+<form id="form1" name="form1" method="post" action=""  enctype="multipart/form-data">
+  {% csrf_token %}
+  <table width="200" border="1">
+    <tr>
+      <td>Name</td>
+      <td><label for="txt_freelancername"></label>
+      <input type="text" name="txt_freelancername" id="txt_freelancername" /></td>
+    </tr>
+    <tr>
+        <td>Contact</td>
+        <td><label for="txt_freelancercontact"></label>
+        <input type="text" name="txt_freelancercontact" id="txt_freelancercontact" /></td>
+      </tr>
+    <tr>
+      <td>Email</td>
+      <td><label for="txt_freelanceremail"></label>
+      <input type="text" name="txt_freelanceremail" id="txt_freelanceremail" /></td>
+    </tr>
+    <tr>
+        <td>Address</td>
+        <td><label for="txt_freelanceraddress"></label>
+            <textarea name="txt_freelanceraddress" id="txt_freelanceraddress" cols="45" rows="5"></textarea></td>
+    </tr>
+    <tr>
+      <td>District</td>
+      <td><label for="txt_freelancerdistrict"></label>
+        <select name="txt_freelancerdistrict" id="txt_freelancerdistrict">
+          <option>Select</option>
+          {% for i in District  %}
+<option value="{{i.id}}">{{i.district_name}}</option>
+
+          {% endfor %}
+      </select></td>
+    </tr>
+    <tr>
+      <td>Place</td>
+            <td>
+                <select name="placedrp" id="placedrp">
+                    <option
+                    value="">Select
+                    </option>
+                  
+                </select>
+            </tr>
+            </td>
+    </tr>
+    <tr>
+        <td>Photo</td>
+        <td><input type="file" id="Photo" name="Photo"></td>
+    </tr>
+    <tr>
+        <td>Proof</td>
+        <td><input type="file" id="Proof" name="Proof"></td>
+    </tr>
+    <tr>
+        <td>Password</td>
+        <td><label for="txt_freelancerpassword"></label>
+        <input type="text" name="txt_freelancerpassword" id="txt_freelancerpassword" /></td>
+    </tr>
+    <tr>
+      <td height="26" colspan="2" align="center"><input type="submit" name="btn_save" id="btn_save" value="Save" />
+      <input type="reset" name="btn_cancel" id="btn_cancel" value="Cancel" /></td>
+    </tr>
+  </table>
+  <p>&nbsp;</p>
+</form>
+</div>
+</body>
+</html>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#txt_freelancerdistrict").change(function () {
+        var dis= $(this).val();
+        var ur = "{% url 'Guest:ajaxplace' %}";
+        $.ajax({
+            url: ur,
+            data: { disd: dis, },
+            success: function (data) {
+                $("#placedrp").html(data);
+            },
+        });
+    });
+</script>
+{% endblock content %}

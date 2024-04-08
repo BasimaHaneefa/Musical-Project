@@ -1,0 +1,70 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bandbooking</title>
+</head>
+<body>
+    {% block content %}
+    <table border="1" align="center">
+    <form method="post">
+        {% csrf_token %}
+        <tr>
+            <td>Fordate</td>
+            <td><input type="date" id="date" name="date"></td>
+        </tr>
+        <tr>
+            <td>Fortime</td>
+            <td><input type="time" id="time" name="time"></td>
+        </tr>
+        <tr>
+            <td>District</td>
+            <td>
+                <select name="distdrp" id="distdrp">
+                    <option value="">Select  </option>   
+                    {% for i in District  %}
+                    <option value="{{i.id}}">{{i.district_name}}</option>
+                    
+                              {% endfor %}   
+                    </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Place</td>
+            <td>
+                <select name="placedrp" id="placedrp">
+                    <option
+                    value="">Select
+                    </option>      
+                    </select>
+            </td>
+        </tr>
+        <tr>
+            <td>Venue</td>
+            <td><input type="text" name="txt_venue" id="txt_venue"></td>
+        </tr>
+        <tr>
+            <td colspan="2" align="center">
+            <input type="submit" name="btn_save" id="btn_save" value="Save">
+            <input type="submit" name="btn_cancel" id="btn_cancel" value="Cancel"></td>
+        </tr>
+</table>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    $("#distdrp").change(function () {
+        var dis= $(this).val();
+        var ur = "{% url 'Guest:ajaxplace' %}";
+        $.ajax({
+            url: ur,
+            data: { disd: dis, },
+            success: function (data) {
+                $("#placedrp").html(data);
+            },
+        });
+    });
+    </script>
+
+  {% endblock content %}  

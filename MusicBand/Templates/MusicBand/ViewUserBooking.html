@@ -1,0 +1,57 @@
+{% extends 'MusicBand/Header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ViewUserBooking</title>
+</head>
+<body>
+    {% block content %}
+    <table width="200" border="1">
+        <tr>
+            <td>Sl.no</td>
+            <td>Fordate</td>
+            <td>Fortime</td>
+            <td>Venue</td>
+            <td>Username</td>
+            <td>Contact</td>
+            <td>Musical Type</td>
+            <td>District</td>
+            <td>Place</td>
+            <td>Action</td>
+        </tr>
+        {% for i in data %}
+        <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{i.booking_fordate}}</td>
+            <td>{{i.booking_fortime}}</td>
+            <td>{{i.booking_venue}}</td>
+            <td>{{i.user.user_name}}</td>
+            <td>{{i.user.user_contact}}</td>
+            <td>{{i.bandwork.musicaltype.Musical_type}}</td>
+            <td>{{i.place.district.district_name}}</td>
+            <td>{{i.place.place_name}}</td>
+            <td>{% if i.booking_status == '0' %}
+                <a href="{% url 'musicband:AcceptBooking' i.id %}">Accept</a>|<a href="{% url 'musicband:RejectBooking' i.id %}">Reject</a>
+                {% elif i.booking_status == '1' %}
+                Accepted |{% if i.booking_amount == '0' %}
+                <a href="{% url 'musicband:Amount' i.id %}">Add Amount</a>
+                {% else %}
+                Rs.{{i.booking_amount}}{% if i.payment_status == '0' %}
+                Not Paid
+                {% else  %}
+                Paid
+                {% endif %}
+                {% endif %}
+                {% else %}
+                Rejected |<a href="{% url 'musicband:AcceptBooking' i.id %}">Accept</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endblock content %}
+</body>
+</html>

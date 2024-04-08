@@ -1,0 +1,132 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchMusicBand</title>
+    <style>
+      
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .card {
+            width: calc(25% - 20px);
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+        }
+
+        .card img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .card-content {
+            padding: 10px 0;
+        }
+
+        .card-content h3 {
+            margin: 5px 0;
+            font-size: 18px;
+        }
+
+        .card-content p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+        select {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+    <table border="1" align="center">
+        <form method="post">
+            {% csrf_token %}
+            <tr>
+                <td>District</td>
+                <td>
+                    <select name="distdrp" id="distdrp" onchange="getband()">
+                        <option value="">Select  </option>   
+                        {% for i in District  %}
+                        <option value="{{i.id}}">{{i.district_name}}</option>
+                        {% endfor %}   
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Place</td>
+                <td>
+                    <select name="placedrp" id="placedrp" onchange="getband()">
+                        <option  value="">Select </option>      
+                    </select>
+                </td>
+            </tr>
+        </form>
+    </table>
+
+    <div class="container" id="result">
+        {% for i in data %}
+        <div class="card">
+            <img src="{{i.MusicalBandRegistration_logo.url}}" alt="Band Logo">
+            <div class="card-content">
+                <h3>{{i.MusicalBandRegistration_name}}</h3>
+                <p>Email: {{i.MusicalBandRegistration_email}}</p>
+                <p>Contact: {{i.MusicalBandRegistration_contact}}</p>
+                <p>Address: {{i.MusicalBandRegistration_address}}</p>
+                <p>District: {{i.place.district.district_name}}</p>
+                <p>Place: {{i.place.place_name}}</p>
+                <a href="{% url 'User:ViewWorks' i.id %}">View Works</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $("#distdrp").change(function () {
+            var dis = $(this).val();
+            var ur = "{% url 'Guest:ajaxplace' %}";
+            $.ajax({
+                url: ur,
+                data: { disd: dis, },
+                success: function (data) {
+                    $("#placedrp").html(data);
+                },
+            });
+        });
+
+        function getband() {
+            var dis = document.getElementById("distdrp").value
+            var place = document.getElementById("placedrp").value
+            var ur = "{% url 'User:Ajaxband' %}";
+            $.ajax({
+                url: ur,
+                data: { disd: dis, pl: place },
+                success: function (data) {
+                    $("#result").html(data);
+                },
+            });
+        }
+    </script>
+</body>
+{% endblock content %}
+</html>

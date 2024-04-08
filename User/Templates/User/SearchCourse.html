@@ -1,0 +1,137 @@
+{% extends 'User/Header.html' %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SearchCourse</title>
+    <style>
+        /* CSS styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        table {
+            margin: 20px auto;
+        }
+
+        table td {
+            padding: 10px;
+        }
+
+        select {
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        #result {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        #result table {
+            width: calc(25% - 20px);
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        #result table img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        #result table td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        #result table td:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+
+        #result table td:nth-child(even) {
+            background-color: #e6e6e6;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}
+    <table border="1" align="center">
+        <form method="post">
+            {% csrf_token %}
+            <tr>
+                <td>Musical Type</td>
+                <td>
+                    <select name="typdrp" id="typtdrp">
+                        <option value="">Select</option>
+                        {% for i in mdata %}
+                        <option value="{{i.id}}">{{i.Musical_type}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+            </tr>
+        </form>
+    </table>
+
+    <div id="result">
+        {% for i in data %}
+        <table border="1">
+            <tr>
+                <td colspan="2" align="center"><img src="{{i.Course_files.url}}" alt="Course Image"></td>
+            </tr>
+            <tr>
+                <td>Details</td>
+                <td>{{i.Course_details}}</td>
+            </tr>
+            <tr>
+                <td>Duration</td>
+                <td>{{i.Course_duration}}</td>
+            </tr>
+            <tr>
+                <td>Amount</td>
+                <td>Rs.{{i.Course_amount}}</td>
+            </tr>
+            <tr>
+                <td>Musical Type</td>
+                <td>{{i.musicaltype.Musical_type}}</td>
+            </tr>
+            <tr>
+                <td>Freelancer Name</td>
+                <td>{{i.freelancer.FreelancerRegistration_name}}</td>
+            </tr>
+            <tr>
+                <td>Freelancer Contact</td>
+                <td>{{i.freelancer.FreelancerRegistration_contact}}</td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center"><a href="{% url 'User:Bookcourse' i.id %}">Book course</a></td>
+            </tr>
+        </table>
+        {% endfor %}
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $("#typtdrp").change(function () {
+            var dis = $(this).val();
+            var ur = "{% url 'User:AjaxCourse' %}";
+            $.ajax({
+                url: ur,
+                data: { disd: dis },
+                success: function (data) {
+                    $("#result").html(data);
+                },
+            });
+        });
+    </script>
+</body>
+{% endblock content %}
+</html>
